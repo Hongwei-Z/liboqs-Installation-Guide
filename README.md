@@ -17,9 +17,9 @@ Before starting, ensure you have the following installed:
 
 We need a C++ compiler and CMake.
 
-1. Download **Build Tools for Visual Studio 2026** from the official Microsoft download page (scroll to the bottom, under "All Downloads" -> "Tools for Visual Studio").
-   * Visual Studio 2026 Download Page: https://visualstudio.microsoft.com/downloads   
-   * Directly Download the Build Tools: https://aka.ms/vs/stable/vs_BuildTools.exe   
+1. Download **Build Tools for Visual Studio 2026** (`vs_BuildTools.exe`) from the official Microsoft download page (scroll to the bottom, under "All Downloads" -> "Tools for Visual Studio").
+   * Recommended: Click this link to download the Build Tools: https://aka.ms/vs/stable/vs_BuildTools.exe   
+   * Visual Studio Download: https://visualstudio.microsoft.com/downloads    
 2. Run the installer (`vs_BuildTools.exe`).
 3. Under the **Workloads** tab, check **ONLY** one option:
    * **Desktop development with C++**
@@ -38,22 +38,31 @@ Python requires a dynamic library (`.dll`) to interact with C code. We must comp
 2. The prompt defaults to `C:\Windows\System32`. Do not clone code here. Move to a safe root directory:
    ```cmd
    cd /d C:\
+   ```
+   ```cmd
    mkdir dev
+   ```
+   ```cmd
    cd dev
    ```
 3. Run the following commands sequentially to clone and compile:
-   ```cmd
-   :: 1. Clone the 0.14.0 version:   
+   1. Clone the 0.14.0 version:
+   ```cmd 
    git clone --branch 0.14.0 https://github.com/open-quantum-safe/liboqs.git
+   ```
+   ```cmd
    cd liboqs
-
-   :: 2. Configure CMake:   
+   ```
+   2. Configure CMake:   
+   ```cmd
    cmake -S . -B build -DBUILD_SHARED_LIBS=ON
-
-   :: 3. Build the project:   
+   ```
+   3. Build the project:   
+   ```cmd
    cmake --build build --config Release
-
-   :: 4. Install to the default Windows system directory:  
+    ```
+   4. Install to the default Windows system directory:  
+   ```cmd
    cmake --install build
    ```
    *The compiled files are now located in `C:\Program Files (x86)\liboqs`.*
@@ -106,12 +115,15 @@ print(oqs.get_supported_kem_mechanisms()[:3])
 
 This step ensures we have the correct build tools (`cmake`, `ninja`) and the essential development libraries required for cryptographic algorithms (OpenSSL headers).
 
+1. Update the system package list
 ```bash
-# 1. Update the system package list  
 sudo apt update
+```
+```bash
 sudo apt upgrade -y
-
-# 2. Install build tools and dependencies   
+```
+2. Install build tools and dependencies   
+```bash
 sudo apt install -y build-essential cmake ninja-build libssl-dev git python3-pip python3-venv
 ```
 
@@ -119,25 +131,34 @@ sudo apt install -y build-essential cmake ninja-build libssl-dev git python3-pip
 ### Step 2: Compile and Install liboqs (v0.14.0)
 `liboqs-python` is just a wrapper; it heavily relies on the `.so` dynamic library existing in the system. We must compile the C library correctly first.
 
+1. Return to the home directory
 ```bash
-# 1. Return to the home directory
 cd ~
-
-# 2. Clone the specific 0.14.0 version source code
+```
+2. Clone the specific 0.14.0 version source code
+```bash
 git clone --branch 0.14.0 https://github.com/open-quantum-safe/liboqs.git
+```
+```bash
 cd liboqs
-
-# 3. Create a build directory
+```
+3. Create a build directory
+```bash
 mkdir build && cd build
-
-# 4. Configure the project using CMake  
+```
+4. Configure the project using CMake  
+```bash
 cmake -GNinja -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=/usr/local ..
-
-# 5. Compile and install to the system path
+```
+5. Compile and install to the system path
+```bash
 ninja
+```
+```bash
 sudo ninja install
-
-# 6. Refresh the system's shared library cache    
+```
+6. Refresh the system's shared library cache    
+```bash
 sudo ldconfig
 ```  
 Verification: Run `ls -l /usr/local/lib/liboqs*` to ensure you can see `liboqs.so.0.14.0`.
@@ -146,18 +167,20 @@ Verification: Run `ls -l /usr/local/lib/liboqs*` to ensure you can see `liboqs.s
 ### Step 3: Configure the Python Virtual Environment
 To avoid polluting the Raspberry Pi's system-level Python environment, we use a virtual environment for isolation.
 
+1. Return to the home directory
 ```bash
-# 1. Return to the home directory
 cd ~
-
-# 2. Create a virtual environment named oqs_env
+```
+2. Create a virtual environment named oqs_env
+```bash
 python3 -m venv oqs_env
-
-# 3. Activate the virtual environment 
-# (Once successful, your command line prefix will show "(oqs_env)")
+```
+3. Activate the virtual environment (Once successful, your command line prefix will show "(oqs_env)")
+```bash
 source oqs_env/bin/activate
-
-# 4. Update base packages (Optional but recommended)
+```
+4. Update base packages (Optional but recommended)
+```bash
 pip install --upgrade pip setuptools
 ```
 
@@ -165,18 +188,23 @@ pip install --upgrade pip setuptools
 ### Step 4: Install liboqs-python
 You must compile and install from the local source code while the virtual environment is **activated**. This ensures it perfectly binds to the 0.14.0 C library you just compiled.
 
+0. Ensure the virtual environment is ACTIVATED
 ```bash
-# 0. Ensure the virtual environment is ACTIVATED
 source oqs_env/bin/activate
-
-# 1. Return to the home directory
+```
+1. Return to the home directory
+```bash
 cd ~
-
-# 2. Clone the Python wrapper source code
+```
+2. Clone the Python wrapper source code
+```bash
 git clone https://github.com/open-quantum-safe/liboqs-python.git
+```
+```bash
 cd liboqs-python
-
-# 3. Compile and install locally   
+```
+3. Compile and install locally   
+```bash
 pip install . --no-cache-dir
 ```
 
@@ -191,4 +219,4 @@ python3 -c "import oqs; print('\n Installation Successful!\nCurrent liboqs and l
 
 ---
 
-Updated on April 19, 2026
+Updated on April 20, 2026
