@@ -1,4 +1,4 @@
-# liboqs & liboqs-python Installation Guide:   
+# liboqs & liboqs-python Installation Guide (v0.16.0):   
 
 This guide provides instructions for installing and compiling the `liboqs` and `liboqs-python` libraries on Windows and Raspberry Pi.
 
@@ -30,7 +30,7 @@ We need a C++ compiler and CMake.
 5. Click **Install**. You can close the installer once it finishes.
 
 
-### Step 2: Compile liboqs (v0.14.0)  
+### Step 2: Compile liboqs  
 
 Python requires a dynamic library (`.dll`) to interact with C code. We must compile `liboqs` specifically to generate this file.
 
@@ -46,9 +46,9 @@ Python requires a dynamic library (`.dll`) to interact with C code. We must comp
    cd dev
    ```
 3. Run the following commands sequentially to clone and compile:
-   1. Clone the 0.14.0 version:
+   1. Clone the liboqs project:
    ```cmd 
-   git clone --branch 0.14.0 https://github.com/open-quantum-safe/liboqs.git
+   git clone https://github.com/open-quantum-safe/liboqs.git
    ```
    ```cmd
    cd liboqs
@@ -82,7 +82,7 @@ Python needs to know where the compiled `.dll` file is located.
 5. Click **OK** on all three windows to save the settings.
 
 
-### Step 4: Install liboqs-python (v0.14.1)
+### Step 4: Install liboqs-python
 
 For the new environment variables to take effect, you must completely close any open terminals or IDEs before proceeding.  
 
@@ -128,16 +128,16 @@ sudo apt install -y build-essential cmake ninja-build libssl-dev git python3-pip
 ```
 
 
-### Step 2: Compile and Install liboqs (v0.14.0)
+### Step 2: Compile and Install liboqs
 `liboqs-python` is just a wrapper; it heavily relies on the `.so` dynamic library existing in the system. We must compile the C library correctly first.
 
 1. Return to the home directory
 ```bash
 cd ~
 ```
-2. Clone the specific 0.14.0 version source code
+2. Clone the source code
 ```bash
-git clone --branch 0.14.0 https://github.com/open-quantum-safe/liboqs.git
+git clone https://github.com/open-quantum-safe/liboqs.git
 ```
 ```bash
 cd liboqs
@@ -161,7 +161,7 @@ sudo ninja install
 ```bash
 sudo ldconfig
 ```  
-Verification: Run `ls -l /usr/local/lib/liboqs*` to ensure you can see `liboqs.so.0.14.0`.
+Verification: Run `ls -l /usr/local/lib/liboqs*` to ensure you can see `liboqs.so.0.16.0`.
 
 
 ### Step 3: Configure the Python Virtual Environment
@@ -219,4 +219,4 @@ python3 -c "import oqs; print('\n Installation Successful!\nCurrent liboqs and l
 
 ---
 
-Updated on April 20, 2026
+Updated on October 5, 2026
